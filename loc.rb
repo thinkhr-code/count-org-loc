@@ -29,7 +29,7 @@ unless ENV['GITHUB_ENTERPRISE_URL'].nil?
   end
 end
 
-client = Octokit::Client.new access_token: ENV['GITHUB_TOKEN']
+client = Octokit::Client.new access_token: ENV['MNL_GITHUB_TOKEN']
 client.auto_paginate = true
 
 begin
@@ -47,7 +47,7 @@ repos.each do |repo|
   report_file = File.expand_path "#{repo.name}.txt", tmp_dir
 
   clone_url = repo.clone_url
-  clone_url = clone_url.sub '//', "//#{ENV['GITHUB_TOKEN']}:x-oauth-basic@" if ENV['GITHUB_TOKEN']
+  clone_url = clone_url.sub '//', "//#{ENV['MNL_GITHUB_TOKEN']}:x-oauth-basic@" if ENV['MNL_GITHUB_TOKEN']
   _output, status = Open3.capture2e 'git', 'clone', '--depth', '1', '--quiet', clone_url, destination
   next unless status.exitstatus.zero?
 
